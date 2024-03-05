@@ -1,0 +1,7 @@
+/vendor/
+
+/php/auth/secret/
+
+/json/
+
+/.vscode/

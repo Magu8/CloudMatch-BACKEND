@@ -7,6 +7,8 @@ if ($connection->connect_error) {
     die("Failed to connect to data base" . $connection->connect_error);
 }
 
+mysqli_set_charset($connection, "utf8mb4");
+
 $input_data = json_decode(file_get_contents("php://input"), true);
 
 if (isset($input_data["name"]) && isset($input_data["surname"]) && isset($input_data["email"]) && isset($input_data["password"])) {
