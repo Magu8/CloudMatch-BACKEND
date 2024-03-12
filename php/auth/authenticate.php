@@ -1,16 +1,23 @@
 <?php
 
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-require_once'../../vendor/autoload.php';
-require"../connection/connection_data.php";
-require"secret/secret_key.php";
+require_once '../../vendor/autoload.php';
+require '../connection/connection_data.php';
+require 'secret/secret_key.php';
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit();
+}
 
 use Firebase\JWT\JWT;
 
 $input_data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($input_data["email"]) && isset($input_data["password"])) {
+if (isset($input_data["email"]) && isset($input_data["password"]) && !empty($input_data["email"]) && !empty($input_data["password"])) {
     $email_input = $input_data["email"];
     $pass_input = $input_data["password"];
 
