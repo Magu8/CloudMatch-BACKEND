@@ -35,12 +35,15 @@ if (isset($input_data["email"]) && isset($input_data["password"]) && !empty($inp
                 $payload = [
                     "user_id" => $row["user_id"],
                     "user_name" => $row["user_name"],
+                    "user_surname" => $row["user_surname"],
                     "email_address" => $row["email_address"],
                     "role" => $row["role"],
                     "iat" => $issuedAt
+
                 ];
                 $token = JWT::encode($payload, $secret_key, 'HS256');
                 echo json_encode(["token" => $token]);
+                
             } else {
                 http_response_code(401);
                 echo json_encode(["error" => "Wrong e-mail or password"]);
@@ -49,8 +52,8 @@ if (isset($input_data["email"]) && isset($input_data["password"]) && !empty($inp
             http_response_code(401);
             echo json_encode(["error" => "Wrong e-mail or password"]);
         }
-
         mysqli_stmt_close($stmt);
+
     } else {
         echo json_encode(["error" => "Error while preparing consult"]);
     }

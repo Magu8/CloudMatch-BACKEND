@@ -1,6 +1,6 @@
 <?php
 
-require '../../vendor/predis/predis/autoload.php';
+require '../../../vendor/predis/predis/autoload.php';
 
 try {
 Predis\Autoloader::register();

@@ -2,7 +2,6 @@
 
 require "../connection/connection_data.php";
 
-
 if ($connection->connect_error) {
     die("Failed to connect to data base" . $connection->connect_error);
 
@@ -11,7 +10,6 @@ if ($connection->connect_error) {
 $userId = $_GET["user_id"];
 
 $consult = "SELECT * FROM users WHERE user_id=$userId";
-
 
 try {
     $result = $connection->query($consult);
