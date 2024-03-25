@@ -7,6 +7,8 @@ if ($connection->connect_error) {
 
 }
 
+//TODO Check if there's already a member with the same number in the team, so it creates another random number
+
 $teamId = $_GET["team_id"];
 $playerId = $_GET["player_id"];
 

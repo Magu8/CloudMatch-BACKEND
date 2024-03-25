@@ -7,10 +7,12 @@ if ($connection->connect_error) {
 
 }
 
+//TODO change ARBITRATOR to REFEREE
+
 $input_data = json_decode(file_get_contents("php://input"), true);
 
 $leagueId = $_GET["league_id"];
-$arbitrator = $_GET["arbitrator_id"];
+$referee = $_GET["referee_id"];
 $localTeam = $_GET["localTeam_id"];
 $visitorTeam = $_GET["visitorTeam_id"];
 
@@ -18,12 +20,12 @@ if (isset($input_data["match_date"]) && isset($input_data["match_hour"])) {
     $matchDate = $input_data["match_date"];
     $matchHour = $input_data["match_hour"];
 
-    $arbitratorCheck = "SELECT role FROM users WHERE user_id = ? AND role = 'Arbitrator' ";
+    $refereeCheck = "SELECT role FROM users WHERE user_id = ? AND role = 'Referee' ";
     $dateHourConflictCheck = "SELECT * FROM play_match WHERE match_date = ? AND match_hour = ?";
 
-    $consult = "INSERT INTO play_match (league, match_date, match_hour, arbitrator, localTeam, visitorTeam) VALUES (?, ?, ?, ?, ?, ?)";
+    $consult = "INSERT INTO play_match (league, match_date, match_hour, referee, localTeam, visitorTeam) VALUES (?, ?, ?, ?, ?, ?)";
 
-    $stmtArbitratorCheck = mysqli_prepare($connection, $arbitratorCheck);
+    $stmtRefereeCheck = mysqli_prepare($connection, $refereeCheck);
     $stmtDateHourConflictCheck = mysqli_prepare($connection, $dateHourConflictCheck);
     $stmt = mysqli_prepare($connection, $consult);
 
@@ -38,17 +40,17 @@ if (isset($input_data["match_date"]) && isset($input_data["match_hour"])) {
                 echo json_encode(["error" => "Can't create a match on this day or hour"]);
 
             } else {
-                if ($stmtArbitratorCheck) {
-                    mysqli_stmt_bind_param($stmtArbitratorCheck, "i", $arbitrator);
-                    mysqli_stmt_execute($stmtArbitratorCheck);
-                    $checkArbitratorResults = mysqli_stmt_get_result($stmtArbitratorCheck);
+                if ($stmtRefereeCheck) {
+                    mysqli_stmt_bind_param($stmtRefereeCheck, "i", $referee);
+                    mysqli_stmt_execute($stmtRefereeCheck);
+                    $checkRefereeResults = mysqli_stmt_get_result($stmtRefereeCheck);
 
-                    if (mysqli_num_rows($checkArbitratorResults) > 0) {
-                        mysqli_stmt_bind_param($stmt, "issiii", $leagueId, $matchDate, $matchHour, $arbitrator, $localTeam, $visitorTeam);
+                    if (mysqli_num_rows($checkRefereeResults) > 0) {
+                        mysqli_stmt_bind_param($stmt, "issiii", $leagueId, $matchDate, $matchHour, $referee, $localTeam, $visitorTeam);
 
                         if (mysqli_stmt_execute($stmt)) {
                             http_response_code(201);
-                            echo json_encode(["message" => "Match has been successfully created"]);
+                            echo json_encode(["message" => "Match day has been successfully created"]);
 
                         } else {
                             http_response_code(500);
@@ -56,12 +58,12 @@ if (isset($input_data["match_date"]) && isset($input_data["match_hour"])) {
                         }
                     } else {
                         http_response_code(404);
-                        echo json_encode(["error" => "This user is not an arbitrator"]);
+                        echo json_encode(["error" => "This user is not a referee"]);
 
                     }
 
                 } else {
-                    echo json_encode(["error" => "Error while preparing the arbitratorCheck consult"]);
+                    echo json_encode(["error" => "Error while preparing the refereeCheck consult"]);
 
                 }
             }

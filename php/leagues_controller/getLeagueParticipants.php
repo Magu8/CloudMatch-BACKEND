@@ -11,14 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 }
 
+$leagueId = $_GET["league_id"];
+
 if ($connection->connect_error) {
-    die("Failed to connect to the database: " . $connection->connect_error);
+    die ("Failed to connect to the database: " . $connection->connect_error);
 
 }
 
-$leagueId = $_GET["league_id"];
-
-$consult = "SELECT team_name
+$consult = "SELECT team_id, team_logo, team_name, league_name AS 'league', start_date, end_date
 FROM leagues
 INNER JOIN participants ON league_id = league
 INNER JOIN teams ON participant_team = team_id
@@ -28,19 +28,19 @@ try {
     $result = $connection->query($consult);
 
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()){ 
+        while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
-
         }
+        echo json_encode($rows);
+        
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "No player found"]);
+        echo json_encode(["error" => "No participants found"]);
 
     }
-    echo json_encode($rows);
 
 } catch (\Throwable $th) {
     http_response_code(500);
     echo "An error ocurred" . throw $th;
-    
+
 }

@@ -1,15 +1,26 @@
 <?php
 
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 require "../connection/connection_data.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit();
+
+}
+
+//TODO Edit the table so it shows Team Delegate'0s name instead of id
 
 if ($connection->connect_error) {
     die("Failed to connect to data base" . $connection->connect_error);
 
 }
 
-$teamId = $_GET["team_id"];
+$teamName = $_GET["team_name"];
 
-$consult = "SELECT * FROM teams WHERE team_id= $teamId";
+$consult = "SELECT * FROM teams WHERE team_name= $teamName";
 
 try {
     $result = $connection->query($consult);

@@ -1,9 +1,19 @@
 <?php
 
+
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Methods: PUT, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 require "../connection/connection_data.php";
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit();
+
+}
+
 if ($connection->connect_error) {
-    die("Failed to connect to data base" . $connection->connect_error);
+    die ("Failed to connect to data base" . $connection->connect_error);
 
 }
 
@@ -28,5 +38,5 @@ try {
 } catch (\Throwable $th) {
     http_response_code(500);
     echo "An error ocurred" . throw $th;
-    
+
 }

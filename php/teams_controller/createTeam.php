@@ -1,15 +1,26 @@
 <?php
 
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 require "../connection/connection_data.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit();
+
+}
 
 if ($connection->connect_error) {
     die("Failed to connect to data base" . $connection->connect_error);
 
 }
 
+//TODO Ask for a team logo
+
 $input_data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($input_data["team_name"])) {
+if (isset($input_data["team_name"]) && !empty($input_data["team_name"])) {
     $team_name = $input_data["team_name"];
     
     $consult = "INSERT INTO teams (team_name) VALUES(?)";
