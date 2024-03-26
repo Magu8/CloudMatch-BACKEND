@@ -16,28 +16,55 @@ if ($connection->connect_error) {
 
 }
 
-//TODO Ask for a team logo
 
 $input_data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($input_data["team_name"]) && !empty($input_data["team_name"])) {
-    $team_name = $input_data["team_name"];
+if (isset($input_data["team_name"]) && isset($input_data["team_delegate"]) && !empty($input_data["team_name"]) && !empty($input_data["team_delegate"]) ) {
+    $name_input = $input_data["team_name"];
+    $delegate_input = $input_data["team_delegate"];
+    $logo_input = !isset($input_data["team_logo"]) || $input_data["team_logo"] === "" ? "https://icon-library.com/images/basketball-icon-png/basketball-icon-png-1.jpg" : $input_data["team_logo"];
     
-    $consult = "INSERT INTO teams (team_name) VALUES(?)";
+    $createTeamConsult = "INSERT INTO teams (team_name, team_logo) VALUES(?, ?)";
+    $addTeamDelegateConsult = "INSERT INTO teamDelegate_association(team, team_delegate) VALUES (?,?)";
 
+    $updateUserConsult = "UPDATE users SET role = 'Team Delegate' WHERE user_id = ?";
+   
     try {
-        $stmt = mysqli_prepare($connection, $consult);
+        $createStmt = mysqli_prepare($connection, $createTeamConsult);
+        if ($createStmt) {
+            mysqli_stmt_bind_param($createStmt, "ss", $name_input, $logo_input);
+            mysqli_stmt_execute($createStmt);
+            $teamId = mysqli_insert_id($connection);
 
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "s", $team_name);
-            mysqli_stmt_execute($stmt);
-            http_response_code(201);
-            echo json_encode(["message" => "Team successfully created"]);
+            $addStmt = mysqli_prepare($connection, $addTeamDelegateConsult);
 
-        } else {
-            echo json_encode(["error" => "Error while preparing consult"]);
+            if ($addStmt) {
+                mysqli_stmt_bind_param($addStmt, "ii", $teamId, $delegate_input);
+                mysqli_stmt_execute($addStmt);
+
+                $updateStmt = mysqli_prepare($connection, $updateUserConsult);
+
+                if ($updateStmt) {
+                    mysqli_stmt_bind_param($updateStmt, "i", $delegate_input);
+                    mysqli_stmt_execute($updateStmt);
+                    http_response_code(201);
+                    echo json_encode(["message" => "Team successfully created"]);
+                    
+                } else {
+                    echo json_encode(["error" => "Error while preparing the update consult"]);
+
+                }
+                
+            } else {
+                echo json_encode(["error" => "Error while preparing the add consult"]);
+
+            }
+            
+        }  else {
+            echo json_encode(["error" => "Error while preparing the create consult"]);
 
         }
+
     } catch (mysqli_sql_exception $ex) {
         $error_number = $ex->getCode();
 
@@ -53,6 +80,6 @@ if (isset($input_data["team_name"]) && !empty($input_data["team_name"])) {
     }
 } else {
     http_response_code(400);
-    echo json_encode(["error" => "Team-name is required"]);
+    echo json_encode(["error" => "Some data is missing"]);
 
 }

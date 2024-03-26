@@ -11,20 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 }
 
-//TODO Edit the table so it shows Team Delegate'0s name instead of id
-
 if ($connection->connect_error) {
-    die ("Failed to connect to data base" . $connection->connect_error);
+    die ("Failed to connect to the database: " . $connection->connect_error);
 
 }
 
-$teamName = $_GET["team_name"];
+$delegateId = $_GET["delegate_id"];
 
 $consult = "SELECT team_id, team_name, team_logo, wins, loses, CONCAT (user_name, ' ', user_surname) AS team_delegate 
 FROM teams
 INNER JOIN teamdelegate_association ON team_id = team
 INNER JOIN users ON team_delegate = user_id
- WHERE team_name=  $teamName";
+WHERE team_delegate =  $delegateId";
 
 try {
     $result = $connection->query($consult);

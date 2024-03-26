@@ -14,7 +14,7 @@ if (isset($input_data["name"]) && isset($input_data["surname"]) && isset($input_
     $surname_input = $input_data["surname"];
     $age_input = $input_data["age"];
     $nickname_input = !isset($input_data["nickname"]) || $input_data["nickname"] === "" ? $surname_input : $input_data["nickname"];
-    $photo_input = !isset($input_data["photo"]) ? "https://th.bing.com/th/id/OIP.htfjaYinoTlfsNTLTJtL8QHaHa?pid=ImgDet&w=474&h=474&rs=1" : $input_data["photo"];
+    $photo_input = !isset($input_data["photo"]) || $input_data["photo"] === "" ? "https://th.bing.com/th/id/OIP.htfjaYinoTlfsNTLTJtL8QHaHa?pid=ImgDet&w=474&h=474&rs=1" : $input_data["photo"];
 
     $consult = "INSERT INTO players (player_nickname, player_name, player_surname, player_photo, age) VALUES (?, ?, ?, ?, ?)";
 
