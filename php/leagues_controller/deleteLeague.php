@@ -18,20 +18,27 @@ if ($connection->connect_error) {
 
 $leagueId = $_GET["league_id"];
 
-$consult = "DELETE FROM leagues WHERE league_id = $leagueId";
+$consult = "DELETE FROM leagues WHERE league_id = ?";
 
 try {
-    $connection->query($consult);
+    $stmt = mysqli_prepare($connection, $consult);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $leagueId);
+        mysqli_execute($stmt);
 
-    if ($connection->affected_rows > 0) {
-        echo json_encode(["message" => "League successfully deleted"]);
+        if ($connection->affected_rows > 0) {
+            http_response_code(200);
+            echo json_encode(["message" => "League successfully deleted"]);
 
-    } else {
-        http_response_code(404);
-        echo json_encode(["error" => "League doesn't exist"]);
+        } else {
+            http_response_code(404);
+            echo json_encode(["error" => "League doesn't exist"]);
 
+        }
     }
+    mysqli_stmt_close($stmt);
+
 } catch (\Throwable $th) {
     echo "An error ocurred" . throw $th;
-    
+
 }

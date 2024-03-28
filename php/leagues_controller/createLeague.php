@@ -12,16 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 if ($connection->connect_error) {
-    die ("Failed to connect to the database: " . $connection->connect_error);
+    die("Failed to connect to the database: " . $connection->connect_error);
 
 }
 
 $input_data = json_decode(file_get_contents("php://input"), true);
 
-//TODO League logo input add
-if (isset ($input_data["league_name"]) && isset ($input_data["start_date"]) && isset ($input_data["end_date"]) && !empty ($input_data["league_name"]) && !empty ($input_data["start_date"]) && !empty ($input_data["end_date"])) {
+
+if (isset($input_data["league_name"]) && isset($input_data["start_date"]) && isset($input_data["end_date"]) && !empty($input_data["league_name"]) && !empty($input_data["start_date"]) && !empty($input_data["end_date"])) {
     $leagueName = $input_data["league_name"];
-    $leagueLogo = empty($input_data["league_logo"]) || $input_data["league_logo"] === '' ? "https://th.bing.com/th/id/R.f8d213b2ac902cb78c34fa9c8283f1ad?rik=77dMq8hr0vz6nA&pid=ImgRaw&r=0" : $input_data["league_logo"] ;
+    $leagueLogo = empty($input_data["league_logo"]) || $input_data["league_logo"] === '' ? "https://th.bing.com/th/id/R.f8d213b2ac902cb78c34fa9c8283f1ad?rik=77dMq8hr0vz6nA&pid=ImgRaw&r=0" : $input_data["league_logo"];
     $start = $input_data["start_date"];
     $end = $input_data["end_date"];
 
@@ -53,6 +53,8 @@ if (isset ($input_data["league_name"]) && isset ($input_data["start_date"]) && i
                 echo json_encode(["error" => "Something went wrong: " . $ex->getMessage()]);
 
             }
+            mysqli_stmt_close($stmt);
+
         } catch (\Throwable $th) {
             echo "An error ocurred" . throw $th;
         }

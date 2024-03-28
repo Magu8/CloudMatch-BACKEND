@@ -19,19 +19,25 @@ if ($connection->connect_error) {
 $consult = "SELECT * FROM leagues";
 
 try {
-    $result = $connection->query($consult);
+    $stmt = mysqli_prepare($connection, $consult);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
+    if ($stmt) {
+        mysqli_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($result->num_rows > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $rows[] = $row;
+            }
+            echo json_encode($rows);
+
+        } else {
+            http_response_code(404);
+            echo json_encode(["error" => "No leagues found"]);
 
         }
-    } else {
-        http_response_code(404);
-        echo json_encode(["error" => "No leagues found"]);
-
     }
-    echo json_encode($rows);
+    mysqli_stmt_close($stmt);
 
 } catch (\Throwable $th) {
     http_response_code(500);
