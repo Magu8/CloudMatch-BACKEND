@@ -28,7 +28,7 @@ try {
 
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "Player doesn't exist"]);
+        echo json_encode(["message" => "Player doesn't exist"]);
 
     }
 } catch (\Throwable $th) {

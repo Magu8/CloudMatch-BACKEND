@@ -19,7 +19,7 @@ try {
 
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "User doesn't exist"]);
+        echo json_encode(["message" => "User doesn't exist"]);
 
     }
 } catch (\Throwable $th) {

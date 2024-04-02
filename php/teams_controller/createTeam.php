@@ -51,17 +51,17 @@ if (isset($input_data["team_name"]) && isset($input_data["team_delegate"]) && !e
                     echo json_encode(["message" => "Team successfully created"]);
                     
                 } else {
-                    echo json_encode(["error" => "Error while preparing the update consult"]);
+                    echo json_encode(["message" => "Error while preparing the update consult"]);
 
                 }
                 
             } else {
-                echo json_encode(["error" => "Error while preparing the add consult"]);
+                echo json_encode(["message" => "Error while preparing the add consult"]);
 
             }
             
         }  else {
-            echo json_encode(["error" => "Error while preparing the create consult"]);
+            echo json_encode(["message" => "Error while preparing the create consult"]);
 
         }
 
@@ -70,16 +70,16 @@ if (isset($input_data["team_name"]) && isset($input_data["team_delegate"]) && !e
 
         if ($error_number == 1062) {
             http_response_code(409);
-            echo json_encode(["error" => "This team-name is already taken"]);
+            echo json_encode(["message" => "This team-name is already taken"]);
 
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Something went wrong: " . $ex->getMessage()]);
+            echo json_encode(["message" => "Something went wrong: " . $ex->getMessage()]);
 
         }
     }
 } else {
     http_response_code(400);
-    echo json_encode(["error" => "Some data is missing"]);
+    echo json_encode(["message" => "Some data is missing"]);
 
 }

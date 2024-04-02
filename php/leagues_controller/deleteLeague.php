@@ -32,7 +32,7 @@ try {
 
         } else {
             http_response_code(404);
-            echo json_encode(["error" => "League doesn't exist"]);
+            echo json_encode(["message" => "League doesn't exist"]);
 
         }
     }

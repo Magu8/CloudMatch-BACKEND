@@ -36,7 +36,7 @@ if (isset($input_data["player_name"]) && isset($input_data["player_surname"]) &&
 
     if ($age_input < 13) {
         http_response_code(400);
-        echo json_encode(["error" => "Underaged player"]);
+        echo json_encode(["message" => "Underaged player"]);
 
     } else {
         try {
@@ -73,12 +73,12 @@ if (isset($input_data["player_name"]) && isset($input_data["player_surname"]) &&
 
                 } else {
                     http_response_code(500);
-                    echo json_encode(["error" => "Error while preparing the add consult"]);
+                    echo json_encode(["message" => "Error while preparing the add consult"]);
 
                 }
             } else {
                 http_response_code(500);
-                echo json_encode(["error" => "Error while preparing the create consult"]);
+                echo json_encode(["message" => "Error while preparing the create consult"]);
 
             }
             mysqli_stmt_close($createStmt);
@@ -89,17 +89,17 @@ if (isset($input_data["player_name"]) && isset($input_data["player_surname"]) &&
 
             if ($error_number == 1062) {
                 http_response_code(409);
-                echo json_encode(["error" => "This player's nickname already exists"]);
+                echo json_encode(["message" => "This player's nickname already exists"]);
 
             } else {
                 http_response_code(500);
-                echo json_encode(["error" => "Something went wrong: " . $ex->getMessage()]);
+                echo json_encode(["message" => "Something went wrong: " . $ex->getMessage()]);
 
             }
         }
     }
 } else {
     http_response_code(400);
-    echo json_encode(["error" => "Some data is missing"]);
+    echo json_encode(["message" => "Some data is missing"]);
 
 }

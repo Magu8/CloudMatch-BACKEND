@@ -30,7 +30,7 @@ try {
         
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "No teams found"]);
+        echo json_encode(["message" => "No teams found"]);
 
     }
 } catch (\Throwable $th) {

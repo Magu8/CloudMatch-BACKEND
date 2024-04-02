@@ -1,6 +1,5 @@
 <?php
 
-
 header("Access-Control-Allow-Origin: http://localhost:4200");
 header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -32,7 +31,7 @@ try {
 
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "No user found"]);
+        echo json_encode(["message" => "No user found"]);
 
     }
 } catch (\Throwable $th) {

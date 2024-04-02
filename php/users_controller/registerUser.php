@@ -41,7 +41,7 @@ if (isset($input_data["name"]) && isset($input_data["surname"]) && isset($input_
             mysqli_stmt_close($stmt);
 
         } else {
-            echo json_encode(["error" => "Error while preparing consult"]);
+            echo json_encode(["message" => "Error while preparing consult"]);
 
         }
     } catch (mysqli_sql_exception $ex) {
@@ -49,17 +49,17 @@ if (isset($input_data["name"]) && isset($input_data["surname"]) && isset($input_
 
         if ($error_number == 1062) {
             http_response_code(409);
-            echo json_encode(["error" => "This email address is already in use"]);
+            echo json_encode(["message" => "This email address is already in use"]);
 
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Something went wrong: " . $ex->getMessage()]);
+            echo json_encode(["message" => "Something went wrong: " . $ex->getMessage()]);
 
         }
     }
 } else {
     http_response_code(400);
-    echo json_encode(["error" => "Some data is missing"]);
+    echo json_encode(["message" => "Some data is missing"]);
 
 }
 

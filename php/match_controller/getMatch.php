@@ -9,19 +9,19 @@ if ($connection->connect_error) {
 
 $matchId = $_GET["match_id"];
 
-$consult = "SELECT league_name, match_date, match_hour, 
-CONCAT(user_name, ' ', user_surname) AS referee,
-local_teams.team_name AS local_team,
-score_local,
-faults_local,
-visitor_teams.team_name AS visitor_team,
-score_visitor,
-faults_visitor
+$consult = "SELECT match_id, league_name, match_date, match_time, 
+CONCAT(user_name, ' ', user_surname) AS referee, 
+local.team_name AS local_team,
+local_score,
+local_fouls,
+visitor.team_name AS visitor_team,
+visitor_score,
+visitor_fouls
 FROM play_match
 INNER JOIN leagues ON league = league_id
 INNER JOIN users ON referee = user_id
-INNER JOIN teams AS local_teams ON localTeam = local_teams.team_id
-INNER JOIN teams AS visitor_teams ON visitorTeam = visitor_teams.team_id
+INNER JOIN teams AS local ON local_team = local.team_id
+INNER JOIN teams AS visitor ON visitor_team = visitor.team_id
 WHERE match_id = $matchId";
 
 try {

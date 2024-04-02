@@ -34,7 +34,7 @@ try {
         
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "No favorites yet"]);
+        echo json_encode(["message" => "No favorites yet"]);
 
     }
 } catch (\Throwable $th) {

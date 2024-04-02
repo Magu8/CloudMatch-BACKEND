@@ -18,7 +18,7 @@ if ($connection->connect_error) {
 
 $leagueId = $_GET["league_id"];
 
-$consult = "SELECT team_id, team_logo, team_name, league_name AS 'league', start_date, end_date, team_delegate
+$consult = "SELECT team_id, team_logo, team_name, league_name AS 'league', start_date, end_date, team_delegate, score
 FROM leagues
 INNER JOIN participants ON league_id = league
 INNER JOIN teams ON participant_team = team_id
@@ -42,7 +42,7 @@ try {
 
         } else {
             http_response_code(404);
-            echo json_encode(["error" => "No participants found"]);
+            echo json_encode(["message" => "No participants found"]);
 
         }
     }

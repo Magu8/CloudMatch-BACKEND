@@ -31,7 +31,7 @@ try {
 
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "No player found"]);
+        echo json_encode(["message" => "No player found"]);
 
     }
 

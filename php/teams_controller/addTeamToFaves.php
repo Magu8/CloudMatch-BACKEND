@@ -30,10 +30,10 @@ try {
         echo json_encode(["message" => "Team added to Favorites"]);
 
     } else {
-        echo json_encode(["error" => "Error while preparing consult"]);
+        echo json_encode(["message" => "Error while preparing consult"]);
 
     }
 } catch (\Throwable $th) {
-    echo json_encode(["error" => "An error occurred: " . throw $th]);
+    echo json_encode(["message" => "An error occurred: " . throw $th]);
 
 }

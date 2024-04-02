@@ -33,7 +33,7 @@ if (isset($input_data["league_name"]) && isset($input_data["start_date"]) && iss
 
     if ($start_timestamp < $current_date_timestamp || $end_timestamp < $current_date_timestamp || $end_timestamp < $start_timestamp) {
         http_response_code(400);
-        echo json_encode(["error" => "Invalid dates"]);
+        echo json_encode(["message" => "Invalid dates"]);
 
     } else {
 
@@ -50,7 +50,7 @@ if (isset($input_data["league_name"]) && isset($input_data["start_date"]) && iss
 
             } else {
                 http_response_code(500);
-                echo json_encode(["error" => "Something went wrong: " . $ex->getMessage()]);
+                echo json_encode(["message" => "Something went wrong: " . $ex->getMessage()]);
 
             }
             mysqli_stmt_close($stmt);
@@ -63,6 +63,6 @@ if (isset($input_data["league_name"]) && isset($input_data["start_date"]) && iss
 
 } else {
     http_response_code(400);
-    echo json_encode(["error" => "Some data is missing"]);
+    echo json_encode(["message" => "Some data is missing"]);
 
 }

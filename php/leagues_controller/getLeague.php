@@ -34,7 +34,7 @@ try {
 
         } else {
             http_response_code(404);
-            echo json_encode(["error" => "No league found"]);
+            echo json_encode(["message" => "No league found"]);
 
         }
     }

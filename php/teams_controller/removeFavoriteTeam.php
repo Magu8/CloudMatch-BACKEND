@@ -29,7 +29,7 @@ try {
 
     } else {
         http_response_code(404);
-        echo json_encode(["error" => "Team or user doesn't exist"]);
+        echo json_encode(["message" => "Team or user doesn't exist"]);
 
     }
 } catch (\Throwable $th) {
