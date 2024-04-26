@@ -10,9 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+$score = $_GET['score'];
+
 $local_score = $redis->get('local_score');
 
-$local_score = intval($local_score) + 1;
+$local_score = intval($local_score) + intval($score);
 
 $redis->set('local_score', $local_score);
 

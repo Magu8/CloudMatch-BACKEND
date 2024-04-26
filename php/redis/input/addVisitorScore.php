@@ -10,9 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+$score = $_GET['score'];
+
 $visitor_score = $redis->get('visitor_score');
 
-$visitor_score = intval($visitor_score) + 1;
+$visitor_score = intval($visitor_score) + intval($score);
 
 $redis->set('visitor_score', $visitor_score);
 
