@@ -12,41 +12,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit();
+}
+
 if ($connection->connect_error) {
     die("Failed to connect to data base" . $connection->connect_error);
 
 }
 
-$score = $_GET['score'];
 $player = $_GET['player'];
 $match = $_GET['match'];
 
 
-
-$consult = "INSERT INTO score_player (match_score, player, score) VALUES ( ?, ?, ? )";
+$consult = "INSERT INTO fouls_player (match_fouls, player) VALUES ( ?, ? )";
 
 try {
     $stmt = mysqli_prepare($connection, $consult);
     if ($stmt) {
 
-        $local_score = $redis->get('local_score');
+        $local_fouls = $redis->get('local_fouls');
 
-        $local_score = intval($local_score) + intval($score);
-
-        $redis->set('local_score', $local_score);
-
-        mysqli_stmt_bind_param($stmt, "iii", $match, $player, $score);
+        $local_fouls = intval($local_fouls) + 1;
+        
+        $redis->set('local_fouls', $local_fouls);
+        
+        mysqli_stmt_bind_param($stmt, "ii", $match, $player);
         mysqli_stmt_execute($stmt);
-        echo json_encode($local_score);
+        echo json_encode($local_fouls);
     }
 } catch (\Throwable $th) {
     http_response_code(500);
     echo "An error ocurred" . throw $th;
 }
-
-
-
-
-
-
-

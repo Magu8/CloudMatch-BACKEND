@@ -23,7 +23,8 @@ FROM leagues
 INNER JOIN participants ON league_id = league
 INNER JOIN teams ON participant_team = team_id
 INNER JOIN teamDelegate_association ON team_id = team
-WHERE league_id = ?";
+WHERE league_id = ?
+ORDER BY score DESC";
 
 try {
     $stmt = mysqli_prepare($connection, $consult);
