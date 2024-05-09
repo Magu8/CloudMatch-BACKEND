@@ -16,22 +16,36 @@ if ($connection->connect_error) {
 
 }
 
+
+
 $leagueId = $_GET['league_id'];
 $teamId = $_GET['participant_id'];
 
-$consult = "UPDATE participants SET score = score + 3 WHERE league = ? AND participant_team = ?";
+$scoreConsult = "UPDATE participants SET score = score + 3 WHERE league = ? AND participant_team = ?";
+$winConsult = "UPDATE teams SET wins = wins + 1 WHERE team_id = ?";
+
 
 try {
-    $stmt = mysqli_prepare($connection, $consult);
+    $scoreStmt = mysqli_prepare($connection, $scoreConsult);
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ii", $leagueId, $teamId);
-        mysqli_stmt_execute($stmt);
-        http_response_code(200);
-        echo json_encode(["message" => "Score successfully added"]);
+    if ($scoreStmt) {
+        mysqli_stmt_bind_param($scoreStmt, "ii", $leagueId, $teamId);
+        mysqli_stmt_execute($scoreStmt);
+
+        $winStmt = mysqli_prepare($connection, $winConsult);
+        if ($winStmt) {
+            mysqli_stmt_bind_param($winStmt, "i", $teamId);
+            mysqli_stmt_execute($winStmt);
+            http_response_code(200);
+            echo json_encode(["message" => "Score successfully added"]);
+
+        } else {
+            echo json_encode(["message" => "Error while preparing first consult"]);
+
+        }
 
     } else {
-        echo json_encode(["message" => "Error while preparing consult"]);
+        echo json_encode(["message" => "Error while preparing first consult"]);
 
     }
 

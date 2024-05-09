@@ -28,7 +28,8 @@ if (isset($input_data['local_score']) && isset($input_data['local_fouls']) && is
 
     $match_id = $input_data['match_id'];
 
-    $consult = "UPDATE play_match SET local_score = ?, local_fouls = ?, visitor_score = ?, visitor_fouls = ? WHERE match_id = ?";
+    $consult = "UPDATE play_match SET local_score = ?, local_fouls = ?, visitor_score = ?, visitor_fouls = ?, finished = true WHERE match_id = ?";
+
 
     try {
         $stmt = mysqli_prepare($connection, $consult);

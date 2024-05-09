@@ -27,7 +27,7 @@ FROM play_match
 INNER JOIN leagues ON league = league_id
 INNER JOIN teams AS local ON local_team = local.team_id
 INNER JOIN teams AS visitor ON visitor_team = visitor.team_id
-WHERE league = ?";
+WHERE league = ? AND finished = false";
 
 try {
     $stmt = mysqli_prepare($connection, $consult);

@@ -20,14 +20,16 @@ $leagueId = $_GET["league"];
 
 $date = $_GET["match_date"];
 
-$consult = "SELECT match_id, league_name, league_id, match_date, match_time, 
+$consult = "SELECT match_id, league_name, league_id, match_date, match_time, finished,
 CONCAT(user_name, ' ', user_surname) AS referee,
 local_team AS local_id, 
 local.team_name AS local_team,
 local.team_logo AS local_team_logo,
+local_score,
 visitor_team AS visitor_id,
 visitor.team_name AS visitor_team,
-visitor.team_logo AS visitor_team_logo
+visitor.team_logo AS visitor_team_logo,
+visitor_score
 FROM play_match
 INNER JOIN leagues ON league = league_id
 INNER JOIN users ON referee = user_id

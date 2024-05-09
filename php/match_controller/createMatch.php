@@ -25,7 +25,7 @@ if (isset($input_data["match_date"]) && isset($input_data["match_time"]) && $lea
 
 
     $refereeCheck = "SELECT role FROM users WHERE user_id = ? AND role = 'Referee' ";
-    $dateTimeConflictCheck = "SELECT * FROM play_match WHERE match_date = ? AND match_time = ?";
+    $dateTimeConflictCheck = "SELECT * FROM play_match WHERE match_date = ? OR match_date = ? AND match_time = ?";
 
     $consult = "INSERT INTO play_match (match_date, match_time, league, referee, local_team, visitor_team) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -35,7 +35,7 @@ if (isset($input_data["match_date"]) && isset($input_data["match_time"]) && $lea
 
     try {
         if ($stmtDateTimeConflictCheck) {
-            mysqli_stmt_bind_param($stmtDateTimeConflictCheck, "ss", $matchDate_input, $matchTime_input);
+            mysqli_stmt_bind_param($stmtDateTimeConflictCheck, "sss", $matchDate_input, $matchDate_input, $matchTime_input);
             mysqli_execute($stmtDateTimeConflictCheck);
             $checkDateTimeConflictResults = mysqli_stmt_get_result($stmtDateTimeConflictCheck);
 
