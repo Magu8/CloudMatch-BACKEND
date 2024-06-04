@@ -18,7 +18,7 @@ if ($connection->connect_error) {
 
 $delegateId = $_GET["delegate_id"];
 
-$consult = "SELECT team_id, team_name, team_logo, wins, loses, CONCAT (user_name, ' ', user_surname) AS team_delegate 
+$consult = "SELECT team_id, team_name, team_logo, CONCAT (user_name, ' ', user_surname) AS team_delegate 
 FROM teams
 INNER JOIN teamdelegate_association ON team_id = team
 INNER JOIN users ON team_delegate = user_id

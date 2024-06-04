@@ -20,9 +20,11 @@ if ($connection->connect_error) {
 
 $leagueId = $_GET['league_id'];
 $teamId = $_GET['participant_id'];
+$score = $_GET['score'];
+$date = $_GET['match_date'];
 
 $scoreConsult = "UPDATE participants SET score = score + 3 WHERE league = ? AND participant_team = ?";
-$winConsult = "UPDATE teams SET wins = wins + 1 WHERE team_id = ?";
+$winConsult = "INSERT INTO team_wins (team, win_date, score) VALUES (?, ?, ?)";
 
 
 try {
@@ -34,7 +36,7 @@ try {
 
         $winStmt = mysqli_prepare($connection, $winConsult);
         if ($winStmt) {
-            mysqli_stmt_bind_param($winStmt, "i", $teamId);
+            mysqli_stmt_bind_param($winStmt, "isi", $teamId, $date, $score);
             mysqli_stmt_execute($winStmt);
             http_response_code(200);
             echo json_encode(["message" => "Score successfully added"]);

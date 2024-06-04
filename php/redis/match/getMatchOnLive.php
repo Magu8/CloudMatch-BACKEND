@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $match = [
     'league_id' => $redis->get('league_id'),
+    'match_date' => $redis->get('match_date'),
     'match_id' => $redis->get('match_id'),
     'local_id' => $redis->get('local_id'),
     'local_team' => $redis->get('local_team'),

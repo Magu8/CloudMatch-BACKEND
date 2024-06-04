@@ -20,7 +20,7 @@ $leagueId = $_GET["league"];
 
 $date = $_GET["match_date"];
 
-$consult = "SELECT match_id, league_name, league_id, match_date, match_time, finished,
+$consult = "SELECT match_id, match_date, league_name, league_id, match_date, match_time, finished,
 CONCAT(user_name, ' ', user_surname) AS referee,
 local_team AS local_id, 
 local.team_name AS local_team,

@@ -19,7 +19,7 @@ if ($connection->connect_error) {
 $teamId = $_GET["favTeam_id"];
 $userId = $_GET["user_id"];
 
-$consult = "DELETE FROM favorite_teams WHERE user_id = $userId AND  favoriteTeam_id = $teamId";
+$consult = "DELETE FROM favorite_teams WHERE user = $userId AND  favorite_team = $teamId";
 
 try {
     $connection->query($consult);

@@ -16,7 +16,7 @@ if ($connection->connect_error) {
 
 }
 
-$consult = "SELECT * FROM leagues";
+$consult = "SELECT * FROM leagues WHERE ended != 1";
 
 try {
     $stmt = mysqli_prepare($connection, $consult);
