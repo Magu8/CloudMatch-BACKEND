@@ -19,10 +19,10 @@ if ($connection->connect_error) {
 
 $input_data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($input_data["team_name"]) && isset($input_data["team_delegate"]) && !empty($input_data["team_name"]) && !empty($input_data["team_delegate"]) ) {
+if (!empty($input_data['team_logo']) && isset($input_data["team_logo"]) &&isset($input_data["team_name"]) && isset($input_data["team_delegate"]) && !empty($input_data["team_name"]) && !empty($input_data["team_delegate"]) ) {
     $name_input = $input_data["team_name"];
     $delegate_input = $input_data["team_delegate"];
-    $logo_input = !isset($input_data["team_logo"]) || $input_data["team_logo"] === "" ? "https://icon-library.com/images/basketball-icon-png/basketball-icon-png-1.jpg" : $input_data["team_logo"];
+    $logo_input =  $input_data["team_logo"];
     
     $createTeamConsult = "INSERT INTO teams (team_name, team_logo) VALUES(?, ?)";
     $addTeamDelegateConsult = "INSERT INTO teamDelegate_association(team, team_delegate) VALUES (?,?)";

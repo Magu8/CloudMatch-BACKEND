@@ -22,12 +22,12 @@ $teamId = $_GET["team_id"];
 
 $input_data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($input_data["player_name"]) && isset($input_data["player_surname"]) && isset($input_data["age"])) {
+if (isset($input_data["player_name"]) && !empty($input_data['player_name']) && isset($input_data["player_surname"]) && !empty($input_data['player_surname']) && isset($input_data["age"]) && !empty($input_data['age']) && isset($input_data["player_photo"]) && !empty($input_data['player_photo'])) {
     $name_input = $input_data["player_name"];
     $surname_input = $input_data["player_surname"];
     $age_input = $input_data["age"];
     $nickname_input = !isset($input_data["player_nickname"]) || $input_data["player_nickname"] === "" ? $surname_input : $input_data["player_nickname"];
-    $photo_input = !isset($input_data["player_photo"]) || $input_data["player_photo"] === "" ? "https://th.bing.com/th/id/OIP.htfjaYinoTlfsNTLTJtL8QHaHa?pid=ImgDet&w=474&h=474&rs=1" : $input_data["photo"];
+    $photo_input = $input_data["photo"];
 
     $createPlayerConsult = "INSERT INTO players (player_nickname, player_name, player_surname, player_photo, age) VALUES (?, ?, ?, ?, ?)";
     $addPlayerConsult = "INSERT INTO teamPlayer_association (team, player, player_number) VALUES (?, ?, ?)";

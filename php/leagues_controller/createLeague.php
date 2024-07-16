@@ -20,7 +20,7 @@ $input_data = json_decode(file_get_contents("php://input"), true);
 
 
 
-if (isset($input_data["league_name"]) && isset($input_data["start_date"]) && isset($input_data["end_date"]) && !empty($input_data["league_name"]) && !empty($input_data["start_date"]) && !empty($input_data["end_date"])) {
+if (isset($input_data["league_name"]) && isset($input_data["start_date"]) && isset($input_data["end_date"]) && !empty($input_data["league_name"]) && !empty($input_data["start_date"]) && !empty($input_data["end_date"]) && isset($input_data['league_logo']) && !empty($input_data['league_logo'])) {
     $leagueName = $input_data["league_name"];
     $start = $input_data["start_date"];
     $end = $input_data["end_date"];
